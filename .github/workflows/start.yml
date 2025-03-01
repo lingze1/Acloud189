@@ -1,1 +1,43 @@
 
+name: Action
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 16 * * *
+
+
+jobs:
+    build:
+      runs-on: ubuntu-20.04
+
+      steps:
+        - name: 更改交换空间并link构建空间
+          uses: zhlhlf/maximize-build-space@master
+          with:
+            swap-size-mb: 8192
+            
+        - name: 获取本仓库源码
+          uses: actions/checkout@main
+          
+        - name: 安装node.js环境
+          uses: actions/setup-node@main
+          with:
+            node-version: 18
+            
+        - name: 注入私有Secrets到环境
+          uses: zhlhlf/Secrets_To_Env@master
+          with:
+            secrets_json: ${{ toJSON(secrets) }}
+          
+        - name: 安装module模块
+          run: |  
+            npm install >/dev/null 2>&1
+
+        - name: 执行
+          uses: nick-fields/retry@master
+          with:
+            timeout_minutes: 30
+            max_attempts: 3
+            command: npm start
+              

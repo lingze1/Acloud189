@@ -127,38 +127,9 @@ const pushWxPusher = (title, desp) => {
     });
 };
 
-const pushPlusNotify = (title, desp) => {
-  if (!(PUSH_PLUS_TOKEN)) {
-    return;
-  }
-  const data = {
-    appToken: PUSH_PLUS_TOKEN,
-    contentType: 1,
-    summary: title,
-    content: desp,
-  };
-  superagent
-    .post("https://www.pushplus.plus/send")
-    .send(data)
-    .timeout(3000)
-    .end((err, res) => {
-      if (err) {
-        logger.error(`pushplus推送失败:${JSON.stringify(err)}`);
-        return;
-      }
-      const json = JSON.parse(res.text);
-      if (json.data[0].code !== 1000) {
-        logger.error(`pushplus推送失败:${JSON.stringify(json)}`);
-      } else {
-        logger.info("pushplus推送成功");
-      }
-    });
-};
-
 const push = (title, desp) => {
   pushWxPusher(title, desp)
   pushTelegramBot(title, desp)
-  pushPlusNotify(title, desp)
 }
 
 let firstSpace = "  ";
@@ -169,8 +140,6 @@ let familyIDs = env.FAMILY_ID.split(/[\n ]/);
 
 let WX_PUSHER_UID = env.WX_PUSHER_UID
 let WX_PUSHER_APP_TOKEN = env.WX_PUSHER_APP_TOKEN
-
-let PUSH_PLUS_TOKEN = env.PUSH_PLUS_TOKEN
 
 let telegramBotToken = env.TELEGRAM_BOT_TOKEN
 let telegramBotId = env.TELEGRAM_CHAT_ID

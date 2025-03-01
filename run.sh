@@ -15,12 +15,11 @@ export PRIVATE_THREADX=""
 # 每个家庭云签到线程数量 默认10
 export FAMILY_THREADX=""
 
-# 个人签到是否只签主账号 true(是)  false为否会签到所有号  默认false
+# 个人签到是否只签主账号 true(是)  false为不签  默认true
 export PRIVATE_ONLY_FIRST=""
 
 export TELEGRAM_CHAT_ID=""
 export TELEGRAM_BOT_TOKEN=""
-export PUSH_PLUS_TOKEN=""
 export WX_PUSHER_APP_TOKEN=""
 export WX_PUSHER_UID=""
 echo > run.log

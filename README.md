@@ -15,7 +15,6 @@
 | `FAMILY_THREADX`     | 家庭云签到线程数（不填默认45）                                                                                                                          | `8`                     |
 | `PRIVATE_ONLY_FIRST` | 个人云仅签主账号：`true`(是)/`false`(不签)（不填默认true）                                                                                             | `true`                  |
 | `TYY_FAMILY_ID`      | `********` 家庭云ID抓取教程：[Ailst文档](https://alist.nn.ci/zh/guide/drivers/189.html#%E5%AE%B6%E5%BA%AD%E8%BD%AC%E7%A7%BB)                  | `********`                 |
-| `PUSH_PLUS_TOKEN`      | `********` PUSH_PLUS公众号-功能-个人中心-开发设置- Token                 | `********`                 |
 | `WX_PUSHER_UID`      | 推送UID（微信扫码-我的-我的UID）[二维码](https://wxpusher.zjiecode.com/api/qrcode/4Ix7noqD3L7DMBoSlvig3t4hqjFWzPkdHqAYsg8IzkPreW7d8uGUHi9LJO4EcyJg.jpg) | `UID_123`               |
 
 ---
@@ -58,7 +57,6 @@ export PRIVATE_ONLY_FIRST=""
 #推送相关
 export TELEGRAM_CHAT_ID=""
 export TELEGRAM_BOT_TOKEN=""
-export PUSH_PLUS_TOKEN=""
 export WX_PUSHER_APP_TOKEN=""
 export WX_PUSHER_UID=""
 npm run start

@@ -28,7 +28,7 @@ const doTask = async (cloudClient) => {
   const signPromises1 = [];
   let getSpace = [`${firstSpace}签到个人云获得(M)`];
   
-  if (env.private_only_first == false || i / 2 % 40 == 0) {
+  if (env.private_only_first == false || i / 2 % 20 == 0) {
     for (let m = 0; m < private_threadx; m++) {
       signPromises1.push((async () => {
         try {
@@ -157,7 +157,7 @@ const main = async () => {
   let finalCloudCapacity, finalFamilyCapacity;
 
   for (i = 0; i < accounts.length; i += 2) {
-    let n = parseInt(i / 2 / 40);
+    let n = parseInt(i / 2 / 20);
     familyID = familyIDs[n];
     const [userName, password] = accounts.slice(i, i + 2);
     if (!userName || !password) continue;

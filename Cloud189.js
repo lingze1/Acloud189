@@ -28,7 +28,7 @@ const doTask = async (cloudClient) => {
   const signPromises1 = [];
   let getSpace = [`${firstSpace}签到个人云获得(M)`];
   
-  if (env.private_only_first == false || i / 2 % 20 == 0) {
+  if (env.private_only_first == false || i / 2 % 40 == 0) {
     for (let m = 0; m < private_threadx; m++) {
       signPromises1.push((async () => {
         try {
@@ -147,7 +147,7 @@ let telegramBotId = env.TELEGRAM_CHAT_ID
 let private_threadx = env.private_threadx; //进程数
 let family_threadx = env.family_threadx; //进程数
 
-let accountCount = 0; // 新增的全局账号计数器
+let i = 0;
 
 const main = async () => {
   accounts = accounts.split(/[\n ]/);
@@ -156,9 +156,9 @@ const main = async () => {
   let initialCloudCapacity, initialFamilyCapacity;
   let finalCloudCapacity, finalFamilyCapacity;
 
-  for (let i = 0; i < accounts.length; i += 2) {
-    accountCount++; // 每次处理一个账号时，计数器加 1
-    familyID = familyIDs[Math.floor((accountCount - 1) / 20)]; // 根据计数器正确获取家庭 ID 的索引
+  for (i = 0; i < accounts.length; i += 2) {
+    let n = parseInt(i / 2 / 40);
+    familyID = familyIDs[n];
     const [userName, password] = accounts.slice(i, i + 2);
     if (!userName || !password) continue;
 
@@ -167,18 +167,18 @@ const main = async () => {
     try {
       const cloudClient = new CloudClient(userName, password);
 
-      logger.log(`${accountCount}. 🆔 ${userNameInfo} 开始执行`);
+      logger.log(`${i / 2 + 1}. 🆔 ${userNameInfo} 开始执行`);
       await cloudClient.login();
       const { cloudCapacityInfo: cloudCapacityInfo0, familyCapacityInfo: familyCapacityInfo0 } = await cloudClient.getUserSizeInfo();
       
-      if (accountCount === 1) {
+      if (i === 0) {
         initialCloudCapacity = cloudCapacityInfo0.totalSize;
         initialFamilyCapacity = familyCapacityInfo0.totalSize;      
       }
 
       const result = await doTask(cloudClient, env.FAMILY_ID);
       
-      if (accountCount % 20 == 0) {
+      if (i / 2 % 40 == 0) {
         userName0 = userName;
         password0 = password;
         familyCapacitySize = familyCapacityInfo0.totalSize;
@@ -189,7 +189,7 @@ const main = async () => {
       //logger.log(`${firstSpace}实际：个人容量+ ${(cloudCapacityInfo.totalSize - cloudCapacityInfo0.totalSize) / 1024 / 1024}M, 家庭容量+ ${(familyCapacityInfo.totalSize - familyCapacityInfo0.totalSize) / 1024 / 1024}M`);
       //logger.log(`${firstSpace}个人总容量：${(cloudCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2)}G, 家庭总容量：${(familyCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2)}G`);
 
-      if (accountCount === accounts.length / 2) {
+      if (i === 0) {
         finalCloudCapacity = cloudCapacityInfo.totalSize;
         finalFamilyCapacity = familyCapacityInfo.totalSize;
       }
@@ -199,6 +199,8 @@ const main = async () => {
     } finally {
       logger.log("");
     }
+
+    
   }
 
   // 输出第1个账号的容量变化
